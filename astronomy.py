@@ -24,9 +24,15 @@ response = requests.get(API_URL)
 astro_content = response.json()
 astro_desc = astro_content["explanation"]
 
-print(astro_content["url"])
+if ".jpg" in astro_content["url"]:
+    with open ("apod_image.jpg", "wb") as img_file:
+        image_response = requests.get(astro_content["url"])
+        img_file.write(image_response.content)
 
-st.video(astro_content["url"])
+        st.image("apod_image.jpg")
+
+else:
+    st.video(astro_content["url"])
 
 st.write(astro_desc)
 
